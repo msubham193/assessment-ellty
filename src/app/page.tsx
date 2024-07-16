@@ -1,8 +1,13 @@
 "use client";
 import { useState } from "react";
 
+type Page = {
+  title: string;
+  isChecked: boolean;
+};
+
 export default function Home() {
-  const [pages, setPages] = useState([
+  const [pages, setPages] = useState<Page[]>([
     { title: "Page 1", isChecked: false },
     { title: "Page 2", isChecked: false },
     { title: "Page 3", isChecked: false },
@@ -16,14 +21,9 @@ export default function Home() {
   const handleAllChecked = () => {
     const newCheckedState = !allChecked;
     setAllChecked(newCheckedState);
-    const updatedPages = pages.map((page) => ({
-      ...page,
-      isChecked: newCheckedState,
-    }));
-    setPages(updatedPages);
+    setPages(pages.map((page) => ({ ...page, isChecked: newCheckedState })));
   };
-
-  const handleIndividualChecked = (index: any) => {
+  const handleIndividualChecked = (index: number) => {
     const updatedPages = [...pages];
     updatedPages[index].isChecked = !updatedPages[index].isChecked;
     setPages(updatedPages);
@@ -39,10 +39,10 @@ export default function Home() {
           className="flex justify-between items-center h-[42px] cursor-pointer"
           onClick={handleAllChecked}
         >
-          <span>All pages</span>
+          <span className="text-sm">All pages</span>
           <input
             type="checkbox"
-            className="h-[22px] w-[22px] rounded-md"
+            className="h-[22px] w-[22px] rounded-md cursor-pointer"
             checked={allChecked}
             onChange={handleAllChecked}
           />
@@ -57,12 +57,12 @@ export default function Home() {
               className="flex justify-between items-center h-[42px] cursor-pointer"
               onClick={() => handleIndividualChecked(index)}
             >
-              <span>{page.title}</span>
+              <span className="text-sm">{page.title}</span>
               <input
                 type="checkbox"
-                className="h-[22px] w-[22px] rounded-md"
+                className="h-[22px] w-[22px] rounded-xl cursor-pointer"
                 checked={page.isChecked}
-                onChange={() => handleIndividualChecked(index)}
+                // onChange={() => handleIndividualChecked(index)}
               />
             </div>
           ))}
